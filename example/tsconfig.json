@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "native-liquid-tabs": ["../src/index"],
+      "native-liquid-tabs/*": ["../src/*"]
+    }
+  }
+}
