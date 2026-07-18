@@ -9,7 +9,12 @@ import type {
 export type LiquidTabsProps = NativeLiquidPrimitiveProps &
   Pick<
     NativeLiquidTabBarProps,
-    'activeRoute' | 'activeTintColor' | 'tintColor' | 'containerColor' | 'onRoutePress'
+    | 'activeRoute'
+    | 'activeTintColor'
+    | 'tintColor'
+    | 'containerColor'
+    | 'resetKey'
+    | 'onRoutePress'
   >;
 
 const LiquidTabs: ComponentType<LiquidTabsProps> = requireNativeView(

@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
@@ -149,7 +150,7 @@ private fun NativeLiquidBackdropSceneContent(
         },
         modifier = Modifier
           .fillMaxSize()
-          .graphicsLayer { alpha = 0.999f },
+          .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen },
       )
     }
 

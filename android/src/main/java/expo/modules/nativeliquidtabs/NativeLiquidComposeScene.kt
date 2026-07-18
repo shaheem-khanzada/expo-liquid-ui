@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.key
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ data class LiquidTabsProps(
   val activeTintColor: String? = null,
   val tintColor: String? = null,
   val containerColor: String? = null,
+  val resetKey: Int = 0,
   val modifiers: ModifierList = emptyList(),
 ) : ComposeProps
 
@@ -95,30 +97,32 @@ fun FunctionalComposableScope.LiquidTabsContent(
       .fillMaxSize(),
     contentAlignment = Alignment.BottomCenter,
   ) {
-    LiquidBottomTabs(
-      selectedTabIndex = { selectedIndex },
-      onTabSelected = { index ->
-        NativeLiquidTabs.getOrNull(index)?.let { item ->
-          onRoutePress(NativeLiquidRouteEvent(item.route))
+    key(props.resetKey) {
+      LiquidBottomTabs(
+        selectedTabIndex = { selectedIndex },
+        onTabSelected = { index ->
+          NativeLiquidTabs.getOrNull(index)?.let { item ->
+            onRoutePress(NativeLiquidRouteEvent(item.route))
+          }
+        },
+        backdrop = backdrop,
+        tabsCount = NativeLiquidTabs.size,
+        accentColor = activeTintColor,
+        containerColor = containerColor,
+        modifier = Modifier
+          .padding(horizontal = 34.dp)
+          .height(64.dp)
+          .fillMaxWidth(),
+      ) { onTabPress ->
+        NativeLiquidTabs.forEachIndexed { index, item ->
+          NativeLiquidBottomTabContent(
+            item = item,
+            tintColor = tintColor,
+            onPress = {
+              onTabPress(index)
+            },
+          )
         }
-      },
-      backdrop = backdrop,
-      tabsCount = NativeLiquidTabs.size,
-      accentColor = activeTintColor,
-      containerColor = containerColor,
-      modifier = Modifier
-        .padding(horizontal = 34.dp)
-        .height(64.dp)
-        .fillMaxWidth(),
-    ) { onTabPress ->
-      NativeLiquidTabs.forEachIndexed { index, item ->
-        NativeLiquidBottomTabContent(
-          item = item,
-          tintColor = tintColor,
-          onPress = {
-            onTabPress(index)
-          },
-        )
       }
     }
   }

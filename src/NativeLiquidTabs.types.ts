@@ -14,6 +14,7 @@ export type NativeLiquidTabBarProps = {
   activeTintColor?: string;
   tintColor?: string;
   containerColor?: string;
+  resetKey?: number;
   onRoutePress?: (event: { nativeEvent: OnRoutePressEventPayload }) => void;
   style?: StyleProp<ViewStyle>;
 };

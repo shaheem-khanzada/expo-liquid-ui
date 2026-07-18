@@ -122,19 +122,29 @@ private fun NativeLiquidMoreMenuContent(
   val textColor = if (isLightTheme) Color(0xFF111827) else Color.White
   val mutedColor = if (isLightTheme) Color(0xFF445064) else Color(0xFFE5E7EB)
   val dividerColor = if (isLightTheme) Color(0xFFE2E4E8) else Color(0xFF34363A)
-  val selectedColor = Color(0xFF008CFF)
-  val selectedBackgroundColor = selectedColor.copy(alpha = if (isLightTheme) 0.12f else 0.18f)
+  val selectedColor = 
+  if (isLightTheme) {
+    Color(0xFFDE9F1F)
+  } else {
+    Color(0xFFF8D86F)
+  }
+  val selectedBackgroundColor =
+    if (isLightTheme) {
+        Color.Black.copy(alpha = 0.10f)
+    } else {
+        Color.White.copy(alpha = 0.10f)
+    }
   val density = LocalDensity.current
   val bottomInset = with(density) {
     WindowInsets.navigationBars.getBottom(this).toDp()
   }
 
   val scrimAlpha = 0.16f * progress
-  val sheetHeight = 410.dp * progress
+  val sheetHeight = 400.dp * progress
   val sheetBottomOffset =
     bottomInset + NativeLiquidTabBarBottomPadding + NativeLiquidTabBarHeight + NativeLiquidMenuTabBarGap
   val scaleX = squeezeScale(progress, open)
-  val cornerRadius = 28.dp + (16.dp * progress)
+  val cornerRadius = 28.dp + (6.dp * progress)
 
   Box(modifier = Modifier.fillMaxSize()) {
     Box(
