@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -101,6 +102,9 @@ fun LiquidBottomTabs(
         var currentIndex by remember {
             mutableIntStateOf(selectedTabIndex())
         }
+        var pendingIndex by remember {
+            mutableStateOf<Int?>(null)
+        }
         val dampedDragAnimation = remember(animationScope) {
             DampedDragAnimation(
                 animationScope = animationScope,
@@ -113,6 +117,7 @@ fun LiquidBottomTabs(
                 onDragStopped = {
                     val targetIndex = targetValue.fastRoundToInt().fastCoerceIn(0, tabsCount - 1)
                     if (targetIndex != currentIndex) {
+                        pendingIndex = targetIndex
                         currentIndex = targetIndex
                         onTabSelected(targetIndex)
                     } else if (targetIndex == tabsCount - 1) {
@@ -139,14 +144,22 @@ fun LiquidBottomTabs(
         }
         fun selectTab(index: Int) {
             val targetIndex = index.fastCoerceIn(0, tabsCount - 1)
+            val previousIndex = currentIndex
             if (targetIndex != currentIndex) {
+                pendingIndex = targetIndex
                 currentIndex = targetIndex
             }
-            onTabSelected(targetIndex)
+            if (targetIndex != previousIndex || targetIndex == tabsCount - 1) {
+                onTabSelected(targetIndex)
+            }
         }
 
-        LaunchedEffect(selectedTabIndex()) {
-            currentIndex = selectedTabIndex()
+        val committedIndex = selectedTabIndex()
+        LaunchedEffect(committedIndex) {
+            if (pendingIndex == null || pendingIndex == committedIndex) {
+                currentIndex = committedIndex
+                pendingIndex = null
+            }
         }
         LaunchedEffect(dampedDragAnimation) {
             snapshotFlow { currentIndex }

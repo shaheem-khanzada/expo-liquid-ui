@@ -12,10 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleFloatingActionButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,9 +26,11 @@ import expo.modules.kotlin.views.ExpoView
 
 class NativeLiquidFabMenuView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
   private val onActionPress by EventDispatcher<Map<String, Any>>()
+  private val onExpandedChange by EventDispatcher<Map<String, Any>>()
   private val backgroundColorState = mutableStateOf<String?>(null)
   private val tintColorState = mutableStateOf<String?>(null)
   private val activeTintColorState = mutableStateOf<String?>(null)
+  private val expandedState = mutableStateOf(false)
 
   private val composeView = ComposeView(context).apply {
     setBackgroundColor(AndroidColor.TRANSPARENT)
@@ -41,6 +40,8 @@ class NativeLiquidFabMenuView(context: Context, appContext: AppContext) : ExpoVi
         backgroundColor = parseFabColor(backgroundColorState.value) ?: Color(0xFF111827),
         tintColor = parseFabColor(tintColorState.value) ?: Color.White,
         activeTintColor = parseFabColor(activeTintColorState.value) ?: Color(0xFF00C48C),
+        expanded = expandedState.value,
+        onExpandedChange = ::updateExpanded,
         onActionPress = { action -> onActionPress(mapOf("action" to action)) },
       )
     }
@@ -51,6 +52,10 @@ class NativeLiquidFabMenuView(context: Context, appContext: AppContext) : ExpoVi
     clipChildren = false
     clipToPadding = false
     addView(composeView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+  }
+
+  fun setExpanded(expanded: Boolean?) {
+    expandedState.value = expanded == true
   }
 
   fun setFabBackgroundColor(color: String?) {
@@ -69,6 +74,15 @@ class NativeLiquidFabMenuView(context: Context, appContext: AppContext) : ExpoVi
     super.onLayout(changed, left, top, right, bottom)
     composeView.layout(0, 0, right - left, bottom - top)
   }
+
+  private fun updateExpanded(expanded: Boolean) {
+    if (expandedState.value == expanded) {
+      return
+    }
+
+    expandedState.value = expanded
+    onExpandedChange(mapOf("expanded" to expanded))
+  }
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -77,10 +91,10 @@ private fun NativeLiquidFabMenuContent(
   backgroundColor: Color,
   tintColor: Color,
   activeTintColor: Color,
+  expanded: Boolean,
+  onExpandedChange: (Boolean) -> Unit,
   onActionPress: (String) -> Unit,
 ) {
-  var expanded by remember { mutableStateOf(false) }
-
   Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.BottomEnd,
@@ -90,7 +104,7 @@ private fun NativeLiquidFabMenuContent(
       button = {
         ToggleFloatingActionButton(
           checked = expanded,
-          onCheckedChange = { expanded = it },
+          onCheckedChange = onExpandedChange,
           containerColor = { if (expanded) activeTintColor else backgroundColor },
         ) {
           Image(
@@ -103,7 +117,7 @@ private fun NativeLiquidFabMenuContent(
     ) {
       FloatingActionButtonMenuItem(
         onClick = {
-          expanded = false
+          onExpandedChange(false)
           onActionPress("expenses")
         },
         containerColor = backgroundColor,
@@ -121,7 +135,7 @@ private fun NativeLiquidFabMenuContent(
 
       FloatingActionButtonMenuItem(
         onClick = {
-          expanded = false
+          onExpandedChange(false)
           onActionPress("settings")
         },
         containerColor = backgroundColor,

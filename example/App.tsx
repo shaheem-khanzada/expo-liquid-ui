@@ -1,23 +1,16 @@
-import { NativeLiquidBackdropSceneView } from 'native-liquid-tabs';
-import { useState } from 'react';
+import { NativeLiquidFabMenuView } from 'native-liquid-tabs';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  const [activeRoute, setActiveRoute] = useState('reports');
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container}>
         <Text style={styles.header}>Module API Example</Text>
         <Group name="Views">
-          <NativeLiquidBackdropSceneView
-            activeRoute={activeRoute}
-            onRoutePress={(event) => setActiveRoute(event.nativeEvent.route)}
-            style={styles.view}>
-            <View style={styles.demoContent}>
-              <Text style={styles.demoTitle}>{activeRoute}</Text>
-            </View>
-          </NativeLiquidBackdropSceneView>
+          <View style={styles.view}>
+            <Text style={styles.demoTitle}>Native Liquid Tabs</Text>
+            <NativeLiquidFabMenuView style={styles.fab} />
+          </View>
         </Group>
       </ScrollView>
     </SafeAreaView>
@@ -38,12 +31,18 @@ const styles = StyleSheet.create({
   groupHeader: { fontSize: 20, marginBottom: 20 },
   group: { margin: 20, backgroundColor: '#fff', borderRadius: 10, padding: 20 },
   container: { flex: 1, backgroundColor: '#eee' },
-  view: { flex: 1, height: 420 },
-  demoContent: {
-    flex: 1,
+  view: {
+    height: 420,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f3f4f6',
+  },
+  fab: {
+    position: 'absolute',
+    right: 24,
+    bottom: 24,
+    width: 86,
+    height: 86,
   },
   demoTitle: {
     fontSize: 28,

@@ -1,6 +1,5 @@
 package expo.modules.nativeliquidtabs
 
-import android.view.View
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.ui.ExpoUIView
@@ -29,48 +28,6 @@ class NativeLiquidTabsModule : Module() {
       }
     }
 
-    View(NativeLiquidBackdropSceneView::class) {
-      Events("onRoutePress")
-
-      Prop("activeRoute") { view: NativeLiquidBackdropSceneView, activeRoute: String? ->
-        view.setActiveRoute(activeRoute)
-      }
-
-      Prop("activeTintColor") { view: NativeLiquidBackdropSceneView, color: String? ->
-        view.setActiveTintColor(color)
-      }
-
-      Prop("tintColor") { view: NativeLiquidBackdropSceneView, color: String? ->
-        view.setTintColor(color)
-      }
-
-      Prop("containerColor") { view: NativeLiquidBackdropSceneView, color: String? ->
-        view.setContainerColor(color)
-      }
-
-      GroupView<NativeLiquidBackdropSceneView> {
-        AddChildView<View> { parent, child, index ->
-          parent.addContentView(child, index)
-        }
-
-        GetChildCount { parent ->
-          parent.contentChildCount
-        }
-
-        GetChildViewAt<View> { parent, index ->
-          parent.getContentChildAt(index)
-        }
-
-        RemoveChildView<View> { parent, child ->
-          parent.removeContentView(child)
-        }
-
-        RemoveChildViewAt { parent, index ->
-          parent.removeContentViewAt(index)
-        }
-      }
-    }
-
     View(NativeLiquidMoreMenuView::class) {
       Events("onDismiss", "onRoutePress")
 
@@ -88,7 +45,11 @@ class NativeLiquidTabsModule : Module() {
     }
 
     View(NativeLiquidFabMenuView::class) {
-      Events("onActionPress")
+      Events("onActionPress", "onExpandedChange")
+
+      Prop("expanded") { view: NativeLiquidFabMenuView, expanded: Boolean? ->
+        view.setExpanded(expanded)
+      }
 
       Prop("backgroundColor") { view: NativeLiquidFabMenuView, color: String? ->
         view.setFabBackgroundColor(color)

@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 export type OnRoutePressEventPayload = {
@@ -19,10 +18,6 @@ export type NativeLiquidTabBarProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-export type NativeLiquidBackdropSceneViewProps = NativeLiquidTabBarProps & {
-  children?: ReactNode;
-};
-
 export type NativeLiquidMoreMenuViewProps = {
   open?: boolean;
   storeName?: string;
@@ -33,9 +28,11 @@ export type NativeLiquidMoreMenuViewProps = {
 };
 
 export type NativeLiquidFabMenuViewProps = {
+  expanded?: boolean;
   backgroundColor?: string;
   tintColor?: string;
   activeTintColor?: string;
+  onExpandedChange?: (event: { nativeEvent: { expanded: boolean } }) => void;
   onActionPress?: (event: { nativeEvent: { action: string } }) => void;
   style?: StyleProp<ViewStyle>;
 };
