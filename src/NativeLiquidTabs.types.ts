@@ -8,6 +8,17 @@ export type NativeLiquidPrimitiveProps = {
   modifiers?: Record<string, unknown>[];
 };
 
+export type NativeLiquidButtonProps = NativeLiquidPrimitiveProps & {
+  backdropEnabled?: boolean;
+  interactive?: boolean;
+  enabled?: boolean;
+  tint?: string;
+  surfaceColor?: string;
+  contentPaddingHorizontal?: number;
+  contentSpacing?: number;
+  onPress?: (event: { nativeEvent: Record<string, never> }) => void;
+};
+
 export type NativeLiquidTabBarProps = {
   activeRoute?: string;
   activeTintColor?: string;

@@ -6,4 +6,6 @@ export { default as NativeLiquidFabMenuView } from './NativeLiquidFabMenuView';
 export { default as NativeLiquidScene } from './NativeLiquidScene';
 export { default as LiquidBackdropTarget } from './LiquidBackdropTarget';
 export { default as LiquidTabs } from './LiquidTabs';
+export { default as LiquidButton } from './LiquidButton';
+export type { LiquidButtonProps } from './LiquidButton';
 export * from './NativeLiquidTabs.types';

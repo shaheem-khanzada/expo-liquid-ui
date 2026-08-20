@@ -28,6 +28,14 @@ class NativeLiquidTabsModule : Module() {
       }
     }
 
+    ExpoUIView<LiquidButtonProps>("LiquidButton") {
+      val onPress by Event<Unit>()
+
+      Content { props ->
+        LiquidButtonContent(props) { onPress(Unit) }
+      }
+    }
+
     View(NativeLiquidMoreMenuView::class) {
       Events("onDismiss", "onRoutePress")
 

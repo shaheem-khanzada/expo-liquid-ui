@@ -26,7 +26,7 @@ import expo.modules.ui.ModifierList
 import expo.modules.ui.ModifierRegistry
 import expo.modules.ui.UIComposableScope
 
-private val LocalNativeLiquidBackdrop = staticCompositionLocalOf<LayerBackdrop?> { null }
+internal val LocalNativeLiquidBackdrop = staticCompositionLocalOf<LayerBackdrop?> { null }
 
 @OptimizedComposeProps
 data class NativeLiquidSceneProps(
@@ -128,7 +128,7 @@ fun FunctionalComposableScope.LiquidTabsContent(
   }
 }
 
-private fun parseNativeLiquidColor(value: String?): Color? {
+internal fun parseNativeLiquidColor(value: String?): Color? {
   if (value.isNullOrBlank()) {
     return null
   }
