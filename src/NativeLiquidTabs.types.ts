@@ -16,7 +16,56 @@ export type NativeLiquidButtonProps = NativeLiquidPrimitiveProps & {
   surfaceColor?: string;
   contentPaddingHorizontal?: number;
   contentSpacing?: number;
+  /** Enables the resting border highlight. Defaults to true. */
+  highlightEnabled?: boolean;
+  /** Border highlight opacity from 0 to 1. Defaults to 1. */
+  highlightAlpha?: number;
+  /** Border highlight width in density-independent pixels. Defaults to 0.5. */
+  highlightWidth?: number;
+  /** Border highlight blur radius in density-independent pixels. Defaults to half the width. */
+  highlightBlurRadius?: number;
+  /** Press expansion amount in density-independent pixels. Defaults to 8. */
+  pressScaleAmount?: number;
+  /** Directional drag stretch amount in density-independent pixels. Defaults to 4. */
+  dragStretchAmount?: number;
   onPress?: (event: { nativeEvent: Record<string, never> }) => void;
+};
+
+export type LiquidMenuItem = {
+  id: string;
+  label: string;
+  enabled?: boolean;
+  destructive?: boolean;
+};
+
+export type NativeLiquidMenuProps = NativeLiquidPrimitiveProps & {
+  items: LiquidMenuItem[];
+  selectedId?: string;
+  enabled?: boolean;
+  surfaceColor?: string;
+  tint?: string;
+  contentColor?: string;
+  topInset?: number;
+  endInset?: number;
+  triggerSize?: number;
+  menuWidth?: number;
+  itemHeight?: number;
+  /** Backdrop blur radius in density-independent pixels. Defaults to 8. */
+  blurRadius?: number;
+  /** Enables the glass border highlight. Defaults to true. */
+  highlightEnabled?: boolean;
+  /** Border highlight opacity from 0 to 1. Defaults to 0.7. */
+  highlightAlpha?: number;
+  /** Border highlight width in density-independent pixels. Defaults to 0.5. */
+  highlightWidth?: number;
+  /** Border highlight blur radius in density-independent pixels. */
+  highlightBlurRadius?: number;
+  /** Collapsed-trigger press expansion in density-independent pixels. */
+  pressScaleAmount?: number;
+  /** Collapsed-trigger directional stretch in density-independent pixels. */
+  dragStretchAmount?: number;
+  onExpandedChange?: (event: { nativeEvent: { expanded: boolean } }) => void;
+  onItemPress?: (event: { nativeEvent: { id: string } }) => void;
 };
 
 export type NativeLiquidTabBarProps = {
@@ -25,15 +74,6 @@ export type NativeLiquidTabBarProps = {
   tintColor?: string;
   containerColor?: string;
   resetKey?: number;
-  onRoutePress?: (event: { nativeEvent: OnRoutePressEventPayload }) => void;
-  style?: StyleProp<ViewStyle>;
-};
-
-export type NativeLiquidMoreMenuViewProps = {
-  open?: boolean;
-  storeName?: string;
-  activeRoute?: string;
-  onDismiss?: (event: { nativeEvent: Record<string, never> }) => void;
   onRoutePress?: (event: { nativeEvent: OnRoutePressEventPayload }) => void;
   style?: StyleProp<ViewStyle>;
 };

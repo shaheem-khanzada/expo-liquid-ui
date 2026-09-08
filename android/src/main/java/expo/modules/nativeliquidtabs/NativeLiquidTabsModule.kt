@@ -36,19 +36,16 @@ class NativeLiquidTabsModule : Module() {
       }
     }
 
-    View(NativeLiquidMoreMenuView::class) {
-      Events("onDismiss", "onRoutePress")
+    ExpoUIView<LiquidMenuProps>("LiquidMenu") {
+      val onExpandedChange by Event<LiquidMenuExpandedEvent>()
+      val onItemPress by Event<LiquidMenuItemPressEvent>()
 
-      Prop("open") { view: NativeLiquidMoreMenuView, open: Boolean? ->
-        view.setOpen(open)
-      }
-
-      Prop("storeName") { view: NativeLiquidMoreMenuView, storeName: String? ->
-        view.setStoreName(storeName)
-      }
-
-      Prop("activeRoute") { view: NativeLiquidMoreMenuView, activeRoute: String? ->
-        view.setActiveRoute(activeRoute)
+      Content { props ->
+        LiquidMenuContent(
+          props = props,
+          onExpandedChange = { onExpandedChange(it) },
+          onItemPress = { onItemPress(it) },
+        )
       }
     }
 
