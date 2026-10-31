@@ -26,14 +26,21 @@ android {
   }
 }
 
+// @expo/ui ships its Android library in a local Maven folder holding only its own version, so
+// depend on the version the app has installed instead of a fixed one.
+def expoUiPackageJson = new File(
+  ["node", "--print", "require.resolve('@expo/ui/package.json')"].execute(null, rootDir).text.trim()
+)
+def expoUiVersion = new groovy.json.JsonSlurper().parse(expoUiPackageJson).version
+
 repositories {
   maven {
-    url("$rootDir/../node_modules/@expo/ui/local-maven-repo")
+    url(new File(expoUiPackageJson.parentFile, "local-maven-repo"))
   }
 }
 
 dependencies {
-  implementation("expo.modules.ui:expo.modules.ui:57.0.4")
+  implementation("expo.modules.ui:expo.modules.ui:${expoUiVersion}")
   implementation("androidx.activity:activity-compose:1.12.3")
   implementation("androidx.compose.animation:animation-core:1.11.1")
   implementation("androidx.compose.foundation:foundation:1.11.1")
